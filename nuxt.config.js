@@ -4,6 +4,11 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss'],
 
+  nitro: {
+    output: {
+      dir: '~/web/server/perkakas-web'
+    }
+  },
   app: {
     head: {
       title: 'Perkakas - Retro Utility Toolbox',
