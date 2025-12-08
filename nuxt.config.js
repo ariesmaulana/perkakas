@@ -11,11 +11,11 @@ export default defineNuxtConfig({
   },
   app: {
     head: {
-      title: 'Perkakas - Retro Utility Toolbox',
+      title: 'Perkakas - Just in case utilities ',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'A collection of handy utility tools with a nostalgic 80s/90s retro aesthetic.' }
+        { name: 'description', content: 'A collection of handy utility tools' }
       ],
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
