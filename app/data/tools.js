@@ -58,6 +58,14 @@ export const tools = [
         link: '/tools/random-picker',
         color: 'butter',
         category: 'utility'
+    },
+    {
+        title: 'Lorem Ipsum',
+        description: 'Generate placeholder text with configurable paragraphs, sentences, and words.',
+        icon: '📄',
+        link: '/tools/lorem-ipsum',
+        color: 'lavender',
+        category: 'developer'
     }
 ]
 
