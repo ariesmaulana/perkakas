@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Retro Design System */
+@layer base {
+  :root {
+    --color-accent: #8B8075;
+    --color-bg: #FAF8F5;
+    --color-card: #FFFFFF;
+    --border-retro: 2px solid #E0DBD5;
+  }
+
+  html {
+    @apply bg-retro-cream;
+  }
+
+  body {
+    @apply font-body text-retro-gray-800 antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-wide;
+  }
+}
+
+@layer components {
+  /* Retro card styling */
+  .card-retro {
+    @apply bg-white border-2 border-retro-gray-200 rounded-retro shadow-retro;
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .card-retro:hover {
+    @apply shadow-retro-lg -translate-x-0.5 -translate-y-0.5;
+  }
+
+  /* Beveled button */
+  .btn-retro {
+    @apply px-4 py-2 font-body font-medium text-sm;
+    @apply bg-retro-gray-100 border-2 border-retro-gray-300 rounded-retro;
+    @apply shadow-bevel;
+    @apply transition-all duration-100 ease-out;
+  }
+
+  .btn-retro:hover {
+    @apply bg-retro-gray-50;
+  }
+
+  .btn-retro:active {
+    @apply shadow-bevel-pressed translate-x-px translate-y-px;
+  }
+
+  /* Primary button variant */
+  .btn-retro-primary {
+    @apply btn-retro bg-retro-mint border-retro-gray-300;
+  }
+
+  .btn-retro-primary:hover {
+    @apply bg-retro-sky;
+  }
+
+  /* Input styling */
+  .input-retro {
+    @apply px-3 py-2 font-body text-sm;
+    @apply bg-white border-2 border-retro-gray-200 rounded-retro;
+    @apply shadow-retro-inset;
+    @apply focus:outline-none focus:border-retro-gray-400;
+    @apply transition-colors duration-150;
+  }
+
+  /* Retro label */
+  .label-retro {
+    @apply block mb-1.5 font-display text-lg text-retro-gray-600 uppercase tracking-wider;
+  }
+}
+
+@layer utilities {
+  /* Pixel-perfect border */
+  .border-pixel {
+    @apply border-2 border-retro-gray-800;
+  }
+
+  /* Subtle pattern background */
+  .bg-grid {
+    background-image: 
+      linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+}
