@@ -33,12 +33,36 @@ const copiedService = ref(false)
 /** @type {import('vue').Ref<boolean>} */
 const copiedCommands = ref(false)
 
+/** @type {import('vue').Ref<string|null>} */
+const error = ref(null)
+
+/**
+ * Sanitizes input to prevent injection attacks
+ * @param {string} input - The input to sanitize
+ * @returns {string} - Sanitized input
+ */
+function sanitizeInput(input) {
+  if (!input) return ''
+  // Remove or escape special characters that could break systemd format
+  return input.replace(/[\n\r]/g, ' ').trim()
+}
+
+/**
+ * Validates service name to only allow safe characters
+ * @param {string} name - The service name to validate
+ * @returns {boolean} - Whether the name is valid
+ */
+function isValidServiceName(name) {
+  // Allow alphanumeric, hyphens, underscores only
+  return /^[a-zA-Z0-9_-]+$/.test(name)
+}
+
 /**
  * Computed service file name
  */
 const serviceFileName = computed(() => {
   if (!serviceName.value) return ''
-  return `${serviceName.value}.service`
+  return `${sanitizeInput(serviceName.value)}.service`
 })
 
 /**
@@ -47,16 +71,16 @@ const serviceFileName = computed(() => {
 const serviceContent = computed(() => {
   if (!serviceName.value || !execCommand.value) return ''
   
-  const desc = description.value || serviceName.value
-  const workDir = workingDirectory.value || ''
-  const userName = user.value || '[your username]'
-  const groupName = group.value || '[your group]'
+  const desc = sanitizeInput(description.value || serviceName.value)
+  const workDir = sanitizeInput(workingDirectory.value)
+  const userName = sanitizeInput(user.value) || 'nobody'
+  const groupName = sanitizeInput(group.value) || 'nogroup'
   
   let content = `[Unit]
 Description=${desc}
 
 [Service]
-ExecStart=${execCommand.value}
+ExecStart=${sanitizeInput(execCommand.value)}
 Restart=always`
 
   if (workDir) {
@@ -102,13 +126,20 @@ sudo journalctl -u ${serviceFileName.value} -f`
  * Validates and generates the service file
  */
 function generateService() {
+  error.value = null
+  
   if (!serviceName.value.trim()) {
-    alert('Please enter a service name')
+    error.value = 'Please enter a service name'
+    return
+  }
+  
+  if (!isValidServiceName(serviceName.value.trim())) {
+    error.value = 'Service name can only contain letters, numbers, hyphens, and underscores'
     return
   }
   
   if (!execCommand.value.trim()) {
-    alert('Please enter an execution command')
+    error.value = 'Please enter an execution command'
     return
   }
   
@@ -164,6 +195,7 @@ function resetForm() {
   generated.value = false
   copiedService.value = false
   copiedCommands.value = false
+  error.value = null
 }
 
 /**
@@ -177,6 +209,7 @@ function loadSample() {
   group.value = 'www-data'
   description.value = 'My Web Application'
   generated.value = false
+  error.value = null
 }
 </script>
 
@@ -275,7 +308,7 @@ function loadSample() {
                   placeholder="www-data"
                   class="input-retro w-full"
                 />
-                <p class="text-xs text-retro-gray-400 mt-1 font-body">User to run the service as</p>
+                <p class="text-xs text-retro-gray-400 mt-1 font-body">User to run the service as (defaults to 'nobody')</p>
               </div>
 
               <div>
@@ -288,9 +321,14 @@ function loadSample() {
                   placeholder="www-data"
                   class="input-retro w-full"
                 />
-                <p class="text-xs text-retro-gray-400 mt-1 font-body">Group to run the service as</p>
+                <p class="text-xs text-retro-gray-400 mt-1 font-body">Group to run the service as (defaults to 'nogroup')</p>
               </div>
             </div>
+          </div>
+
+          <!-- Error Message -->
+          <div v-if="error" class="mb-6 p-4 bg-retro-pink border-2 border-retro-gray-300 rounded-retro">
+            <p class="font-body text-sm text-retro-gray-700">{{ error }}</p>
           </div>
 
           <!-- Action Buttons -->
