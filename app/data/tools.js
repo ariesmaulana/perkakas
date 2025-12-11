@@ -66,6 +66,14 @@ export const tools = [
         link: '/tools/lorem-ipsum',
         color: 'lavender',
         category: 'developer'
+    },
+    {
+        title: 'Systemd Generator',
+        description: 'Generate systemd service files and commands for your applications.',
+        icon: '⚙️',
+        link: '/tools/systemd-generator',
+        color: 'sky',
+        category: 'developer'
     }
 ]
 
