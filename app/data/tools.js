@@ -44,6 +44,14 @@ export const tools = [
         category: 'security'
     },
     {
+        title: 'Systemd Generator',
+        description: 'Generate systemd service files and commands for your applications.',
+        icon: '⚙️',
+        link: '/tools/systemd-generator',
+        color: 'sky',
+        category: 'developer'
+    },
+    {
         title: 'Text Diff',
         description: 'Compare two texts and highlight the differences between them.',
         icon: '📝',
@@ -68,12 +76,12 @@ export const tools = [
         category: 'developer'
     },
     {
-        title: 'Systemd Generator',
-        description: 'Generate systemd service files and commands for your applications.',
-        icon: '⚙️',
-        link: '/tools/systemd-generator',
-        color: 'sky',
-        category: 'developer'
+        title: 'Date Calculator',
+        description: 'Calculate a future or past date by adding or subtracting days.',
+        icon: '🗓️',
+        link: '/tools/date-calculator',
+        color: 'mint',
+        category: 'utility'
     }
 ]
 
