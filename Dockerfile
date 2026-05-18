@@ -14,7 +14,7 @@ FROM node:22-slim AS production
 
 WORKDIR /app
 
-COPY --from=build /app/.output ./.output
+COPY --from=build /app/web/server/perkakas-web ./web/server/perkakas-web
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
@@ -22,4 +22,4 @@ EXPOSE 3000
 
 USER node
 
-CMD ["node", ".output/server/index.mjs"]
+CMD ["node", "web/server/perkakas-web/server/index.mjs"]
