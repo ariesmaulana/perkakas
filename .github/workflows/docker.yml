@@ -2,6 +2,8 @@ name: Docker Build & Push
 
 on:
   push:
+    branches:
+      - 'feat/docker'  # TODO: remove after debugging
     tags:
       - 'release-V*'
       - 'staging-V*'
@@ -30,19 +32,23 @@ jobs:
       - name: Generate Docker tags
         id: tags
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
+          REF="${GITHUB_REF}"
           REPO="ghcr.io/${{ github.repository }}"
 
-          if [[ "$TAG" == release-V* ]]; then
-            VERSION="${TAG#release-}"
+          if [[ "$REF" == refs/tags/release-V* ]]; then
+            VERSION="${REF#refs/tags/release-}"
             TAGS="${REPO}:${VERSION},${REPO}:latest,${REPO}:staging"
             echo "env=release" >> "$GITHUB_OUTPUT"
             echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          elif [[ "$TAG" == staging-V* ]]; then
-            VERSION="${TAG#staging-}"
+          elif [[ "$REF" == refs/tags/staging-V* ]]; then
+            VERSION="${REF#refs/tags/staging-}"
             TAGS="${REPO}:staging-${VERSION},${REPO}:staging"
             echo "env=staging" >> "$GITHUB_OUTPUT"
             echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          else
+            # Branch push — debug tag only
+            TAGS="${REPO}:debug"
+            echo "env=debug" >> "$GITHUB_OUTPUT"
           fi
 
           echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
