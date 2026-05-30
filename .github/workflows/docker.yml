@@ -2,8 +2,6 @@ name: Docker Build & Push
 
 on:
   push:
-    branches:
-      - 'feat/docker'  # TODO: remove after debugging
     tags:
       - 'release-V*'
       - 'staging-V*'
@@ -45,10 +43,6 @@ jobs:
             TAGS="${REPO}:staging-${VERSION},${REPO}:staging"
             echo "env=staging" >> "$GITHUB_OUTPUT"
             echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          else
-            # Branch push — debug tag only
-            TAGS="${REPO}:debug"
-            echo "env=debug" >> "$GITHUB_OUTPUT"
           fi
 
           echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
